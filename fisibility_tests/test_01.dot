@@ -1,0 +1,111 @@
+strict digraph "" {
+	graph [compound=True,
+		rankdir=LR
+	];
+	node [fontname=Chilanka,
+		label="\N",
+		shape=box,
+		style=rounded
+	];
+	edge [fontname=Chilanka];
+	subgraph cluster_seq2 {
+		graph [label="Phrase which is followed",
+			rank=same
+		];
+		"seq2.seq"		 [label=SEQ];
+		"seq2.seq.0"		 [label=e];
+		"seq2.seq" -> "seq2.seq.0"		 [label=els];
+		"seq2.seq.1"		 [label=e];
+		"seq2.seq.0" -> "seq2.seq.1"		 [label=nxt];
+	}
+	subgraph cluster_durations {
+		graph [label=DURATIONS,
+			rank=same
+		];
+		"durations.vals"		 [label=VALS];
+		"durations.vals.1/2"		 [label=<<B>'1/2'</B>>];
+		"durations.vals" -> "durations.vals.1/2"		 [label=vals];
+		"durations.vals.1/4"		 [label=<<B>'1/4'</B>>];
+		"durations.vals.1/2" -> "durations.vals.1/4"		 [label="*1/2"];
+		"durations.vals.1/8"		 [label=<<B>'1/8'</B>>];
+		"durations.vals.1/4" -> "durations.vals.1/8"		 [label="*1/2"];
+	}
+	subgraph cluster_trans {
+		graph [label="Reverse inputs",
+			rank=same
+		];
+		"trans.trns"		 [label=TRNS];
+		"trans.in.0"		 [label=i];
+		"trans.trns" -> "trans.in.0"		 [label=in];
+		"trans.out.0"		 [label=o];
+		"trans.trns" -> "trans.out.0"		 [label=out];
+		"trans.in.1"		 [label=i];
+		"trans.in.0" -> "trans.in.1"		 [label=nxt];
+		"trans.in.2"		 [label=i];
+		"trans.in.1" -> "trans.in.2"		 [label=nxt];
+		"trans.out.1"		 [label=o];
+		"trans.out.0" -> "trans.out.1"		 [label=nxt];
+		"trans.out.2"		 [label=o];
+		"trans.out.1" -> "trans.out.2"		 [label=nxt];
+	}
+	subgraph cluster_scale {
+		graph [label="C Major",
+			rank=same
+		];
+		"scale.vals"		 [label=VALS];
+		"scale.vals.C"		 [label=<<B>'C'</B>>];
+		"scale.vals" -> "scale.vals.C"		 [label=vals];
+		"scale.vals.D"		 [label=<<B>'D'</B>>];
+		"scale.vals.C" -> "scale.vals.D"		 [label=nxt];
+		"scale.vals.E"		 [label=<<B>'E'</B>>];
+		"scale.vals.D" -> "scale.vals.E"		 [label=nxt];
+		"scale.vals.F"		 [label=<<B>'F'</B>>];
+		"scale.vals.E" -> "scale.vals.F"		 [label=nxt];
+		"scale.vals.G"		 [label=<<B>'G'</B>>];
+		"scale.vals.F" -> "scale.vals.G"		 [label=nxt];
+		"scale.vals.A"		 [label=<<B>'A'</B>>];
+		"scale.vals.G" -> "scale.vals.A"		 [label=nxt];
+		"scale.vals.B"		 [label=<<B>'B'</B>>];
+		"scale.vals.A" -> "scale.vals.B"		 [label=nxt];
+	}
+	subgraph cluster_seq1 {
+		graph [label="The 'Main' music",
+			rank=same
+		];
+		"seq1.seq"		 [label=SEQ];
+		"seq1.seq.0"		 [label=e];
+		"seq1.seq" -> "seq1.seq.0"		 [label=els];
+		"seq1.seq.1"		 [label=e];
+		"seq1.seq.0" -> "seq1.seq.1"		 [label=nxt];
+		"seq1.seq.2"		 [label=e];
+		"seq1.seq.1" -> "seq1.seq.2"		 [label=nxt];
+	}
+	2	 [fontsize=30,
+		label="Main music compiles to
+ E-1/2, D-1/8, E-1/8"];
+	1	 [fontsize=30,
+		label="A Simple feasibility 
+test of the Follow concept"];
+	"seq1.seq.0" -> "durations.vals.1/2"	 [color=red,
+		label=r];
+	"seq1.seq.0" -> "scale.vals.E"	 [color=blue,
+		label=p];
+	"seq1.seq.1" -> "seq2.seq.0";
+	"seq1.seq.2" -> "trans.out.0";
+	"seq2.seq.0" -> "durations.vals.1/8"	 [color=red,
+		label=r];
+	"seq2.seq.0" -> "scale.vals.D"	 [color=blue,
+		label=p];
+	"trans.in.0" -> "durations.vals.1/2"	 [color=red,
+		label=r];
+	"trans.in.0" -> "scale.vals.C"	 [color=blue,
+		label=p];
+	"trans.in.1" -> "durations.vals.1/4"	 [color=red,
+		label=r];
+	"trans.in.1" -> "scale.vals.D"	 [color=blue,
+		label=p];
+	"trans.in.2" -> "durations.vals.1/8"	 [color=red,
+		label=r];
+	"trans.in.2" -> "scale.vals.E"	 [color=blue,
+		label=p];
+}
